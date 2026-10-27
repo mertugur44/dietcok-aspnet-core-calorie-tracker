@@ -1,0 +1,59 @@
+@model CalorieTracker.Models.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - DietCok</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+</head>
+<body class="auth-page">
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 style="margin-bottom: 10px;">
+                <span style="color: #28a745;">Diet</span><span style="color: #dc3545;">Cok</span> 
+                <span style="color: #28a745; font-size: 0.8em;">▼</span><span style="color: #dc3545; font-size: 0.8em;">▲</span>
+            </h1>
+            <h2>Hoş Geldiniz</h2>
+            <p>Devam etmek için giriş yapınız</p>
+        </div>
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="success" style="color:green; margin-bottom:15px; background:#eaffea; padding:10px; border-radius:5px;">
+                👋 @ViewBag.SuccessMessage
+            </div>
+        }
+
+        <div asp-validation-summary="ModelOnly" class="error" style="color:red; margin-bottom:15px; background:#ffebeb; padding:10px; border-radius:5px;">
+            ⚠️ 
+        </div>
+
+        <form asp-action="Login" method="post" style="text-align:left;">
+            <div class="form-group">
+                <label asp-for="Username">Kullanıcı Adı</label>
+                <input asp-for="Username" type="text" class="form-control" placeholder="Kullanıcı adınızı girin" required />
+                <span asp-validation-for="Username" style="color:red; font-size:0.8em;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Şifre</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Şifrenizi girin" required />
+                <span asp-validation-for="Password" style="color:red; font-size:0.8em;"></span>
+            </div>
+
+            <button type="submit" class="auth-btn">Giriş Yap</button>
+        </form>
+
+        <div class="auth-footer">
+            Hesabınız yok mu? <a href="/Account/Register">Kayıt Ol</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+@{
+    var username = ViewBag.Username;
+    var currentMonthName = ViewBag.CurrentMonthName;
+    var currentYear = ViewBag.CurrentYear;
+    var weeks = ViewBag.Weeks as List<List<CalorieTracker.Controllers.CalendarDay?>>;
+    var user = ViewBag.User as CalorieTracker.Models.User;
+
+    int prevMonth = ViewBag.PrevMonth;
+    int prevYear = ViewBag.PrevYear;
+    int nextMonth = ViewBag.NextMonth;
+    int nextYear = ViewBag.NextYear;
+}
+
+<div class="dashboard-header">
+    <h2>Genel Bakış</h2>
+    <div class="month-nav">
+        <a href="/dashboard?year=@prevYear&month=@prevMonth">&laquo; Önceki</a>
+        <span style="margin: 0 15px; font-weight:bold; font-size:1.2em;">@currentMonthName @currentYear</span>
+        <a href="/dashboard?year=@nextYear&month=@nextMonth">Sonraki &raquo;</a>
+    </div>
+</div>
+
+<p style="margin-bottom: 20px; font-size: 1.1em;">
+    Hoş geldin, <strong>@username</strong>! İşte aylık özetin.
+</p>
+
+<div class="calendar-wrapper">
+    <table class="calendar-table">
+        <thead>
+            <tr>
+                <th>Pzt</th>
+                <th>Sal</th>
+                <th>Çar</th>
+                <th>Per</th>
+                <th>Cum</th>
+                <th>Cmt</th>
+                <th>Paz</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var week in weeks ?? new List<List<CalorieTracker.Controllers.CalendarDay?>>())
+            {
+                <tr>
+                    @foreach (var day in week)
+                    {
+                        var cellClass = day == null ? "empty" : "day-cell " + day.Status;
+                        <td class="@cellClass">
+                            @if (day != null)
+                            {
+                                <a href="/day/@day.Date.ToString("yyyy-MM-dd")"
+                                   style="display:flex; flex-direction:column; justify-content:space-between; height:100%; text-decoration:none; color:inherit; padding:10px;">
+                                    
+                                    <div class="day-number">@day.Day</div>
+
+                                    @if (day.Status != "no-data")
+                                    {
+                                        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; font-size:0.8em; color:#4a5568; line-height:1.4;">
+                                            <div>
+                                                Pro: @Math.Round(day.Protein)g
+                                                @if (user?.DailyProteinGoal != null)
+                                                {
+                                                    if (day.Protein > user.DailyProteinGoal)
+                                                    {
+                                                        <span style="color:#dc3545; font-weight:bold; font-size: 1.1em;">▲</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:#28a745; font-weight:bold; font-size: 1.1em;">▼</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <div>
+                                                Kar: @Math.Round(day.Carbs)g
+                                                @if (user?.DailyCarbGoal != null)
+                                                {
+                                                    if (day.Carbs > user.DailyCarbGoal)
+                                                    {
+                                                        <span style="color:#dc3545; font-weight:bold; font-size: 1.1em;">▲</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:#28a745; font-weight:bold; font-size: 1.1em;">▼</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <div>
+                                                Yağ: @Math.Round(day.Fat)g
+                                                @if (user?.DailyFatGoal != null)
+                                                {
+                                                    if (day.Fat > user.DailyFatGoal)
+                                                    {
+                                                        <span style="color:#dc3545; font-weight:bold; font-size: 1.1em;">▲</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:#28a745; font-weight:bold; font-size: 1.1em;">▼</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="status-indicator">
+                                        @if (day.Status == "over-limit")
+                                        {
+                                            <div style="font-weight:bold; margin-top:5px;">
+                                                ⚠️ @day.TotalCalories kcal
+                                            </div>
+                                        }
+                                        else if (day.Status == "under-limit")
+                                        {
+                                            <div style="font-weight:bold; margin-top:5px;">
+                                                @day.TotalCalories kcal
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </div>
+                                </a>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

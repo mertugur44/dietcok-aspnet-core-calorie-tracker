@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DietCok - Kalori Takip</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>
+                <span style="color: #28a745;">Diet</span><span style="color: #dc3545;">Cok</span> 
+                <span style="color: #28a745; font-size: 0.8em;">▼</span><span style="color: #dc3545; font-size: 0.8em;">▲</span>
+            </h1>
+            <nav>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a href="/dashboard">Panel</a>
+                    <a href="/profile">Profil Hedefleri</a>
+                    <a href="/swagger" target="_blank" style="color: #007bff; border: 1px solid #007bff; padding: 8px 16px; border-radius: 20px; text-decoration: none;">Swagger API</a>
+                    <a href="/Account/Logout" class="btn-logout">Çıkış Yap</a>
+                }
+                else
+                {
+                    <a href="/Account/Login">Giriş Yap</a>
+                    <a href="/Account/Register">Kayıt Ol</a>
+                }
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        @RenderBody()
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

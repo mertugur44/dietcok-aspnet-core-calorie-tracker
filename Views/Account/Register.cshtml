@@ -1,0 +1,58 @@
+@model CalorieTracker.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol - DietCok</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
+</head>
+<body class="auth-page">
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 style="margin-bottom: 10px;">
+                <span style="color: #28a745;">Diet</span><span style="color: #dc3545;">Cok</span> 
+                <span style="color: #28a745; font-size: 0.8em;">▼</span><span style="color: #dc3545; font-size: 0.8em;">▲</span>
+            </h1>
+            <h2>Hesap Oluştur</h2>
+            <p>Sağlıklı yaşam yolculuğuna başla</p>
+        </div>
+
+        <div asp-validation-summary="All" class="error" style="color:red; margin-bottom:15px; background:#ffebeb; padding:10px; border-radius:5px; text-align: left;">
+        </div>
+
+        <form asp-action="Register" method="post" style="text-align:left;">
+            <div class="form-group">
+                <label asp-for="Username">Kullanıcı Adı</label>
+                <input asp-for="Username" type="text" class="form-control" placeholder="Benzersiz bir isim seçin" required />
+                <span asp-validation-for="Username" style="color:red; font-size:0.8em;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Şifre</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Güçlü bir şifre girin" required />
+                <span asp-validation-for="Password" style="color:red; font-size:0.8em;"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DailyCalorieGoal">Günlük Hedef Kalori</label>
+                <input asp-for="DailyCalorieGoal" type="number" class="form-control" required />
+                <span asp-validation-for="DailyCalorieGoal" style="color:red; font-size:0.8em;"></span>
+                <small style="color:#aaa;">Önerilen: 2000-2500 kcal</small>
+            </div>
+
+            <button type="submit" class="auth-btn">Kayıt Ol &rarr;</button>
+        </form>
+
+        <div class="auth-footer">
+            Zaten hesabın var mı? <a href="/Account/Login">Giriş Yap</a>
+        </div>
+    </div>
+
+</body>
+</html>
